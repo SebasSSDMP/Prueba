@@ -18,15 +18,18 @@ const Usuarios = mongoose.model('Usuarios', new mongoose.Schema({
 
 const app = express();
 
-// Conexión a MongoDB usando variable de entorno
-const mongoURL = process.env.MONGO_URL || "mongodb://root:r0O7@mongo:27017/mibd?authSource=admin";
+// Conexión a MongoDB usando variable de entorno o fallback local
+const mongoURL =
+    process.env.MONGO_URL ||
+    "mongodb://root:r0O7@mongo:27017/mibd?authSource=admin";
 
-mongoose.connect(mongoURL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
+mongoose
+    .connect(mongoURL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+    })
     .then(() => console.log("✅ Conectado a MongoDB"))
-    .catch(err => console.error("❌ Error al conectar a MongoDB:", err));
+    .catch((err) => console.error("❌ Error al conectar a MongoDB:", err));
 
 // Rutas
 app.get('/', async (_req, res) => {
